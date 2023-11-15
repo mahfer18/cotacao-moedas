@@ -1,7 +1,7 @@
 Conversor de Moedas
 
 
-Projeto criado em HTML, CSS e Python com o framework Flask
+Projeto criado em HTML, CSS e Python com o framework Flask, e usando API externa
 
 
 Ao fazer o clone do projeto:
