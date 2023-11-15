@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Moedas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bem Vindo ao Conversor de Moedas</h1>
+        <h2>Informe os dados</h2>
+        <form action="/converter" method="POST">
+            <label for="valor">Valor a ser convertido:</label>
+            <input type="text" id="valor" name="valor" required>
+            <br>
+            <label for="origem">Moeda Origem:</label>
+            <select name="origem" id="moedaOrigem" required>
+                <option value="">Selecione uma opção...</option>
+                <option value="BRL">Real (BRL)</option>
+                <option value="USD">Dólar Americano (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+                <option value="JPY">Iene (JPY)</option>
+            </select>
+            <br>
+            <label for="destino">Moeda Destino:</label>
+            <select name="destino" id="moedaDestino" required>
+                <option value="">Selecione uma opção...</option>
+                <option value="BRL">Real (BRL)</option>
+                <option value="USD">Dólar Americano (USD)</option>
+                <option value="EUR">Euro (EUR)</option>
+                <option value="JPY">Iene (JPY)</option>
+            </select>
+            <br>
+            <button type="submit">CONVERTER!</button>
+    </div>
+    </form>
+    <span id="resultado"></span>
+</body>
+<script>
+    document.getElementById('conversorForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede o envio padrão do formulário
+
+        // Obtém os valores do formulário
+        let valor = parseFloat(document.getElementById('valor').value);
+        let origem = document.getElementById('moedaOrigem').value;
+        let destino = document.getElementById('moedaDestino').value;
+
+        // Envia os dados para o servidor usando fetch
+        fetch('/converter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                valor: valor,
+                origem: origem,
+                destino: destino
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.resultado) {
+                document.getElementById('resultado').textContent = `Valor convertido ${data.resultado}`;
+            } else {
+                document.getElementById('resultado').textContent = 'Moeda não localizada - Moeda Incorreta';
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
+    });
+</script>
+
+</html>

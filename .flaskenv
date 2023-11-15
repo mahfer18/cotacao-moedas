@@ -1,0 +1,2 @@
+FLASK_APP=cotacao.py
+FLASK_ENV=development
